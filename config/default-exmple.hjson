@@ -1,0 +1,27 @@
+{
+ morganFormat: tiny
+ htdocsPath: public
+ privkeyPath: (somewhere)/privkey.pem
+ fullchainPath: (somewhere)/cert.pem
+ logDirPath: log
+ port: 443
+ tz:{
+  unosm: 6
+ }
+ sTileName:{
+  un-z5: small-scale
+  osm-z456: small-scale
+ }
+ defaultZ: 6
+ mbtilesDir: mbtiles
+ esri-tilemap-min:{
+  ne-test: 0
+  test: 0
+ }
+ esri-tilemap-max:{
+  ne-test: 5
+  test: 15
+ }
+
+}
+
