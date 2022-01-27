@@ -86,7 +86,7 @@ var mapRouter = require('./routes/map') //test 0104
 var webmapRouter = require('./routes/webmap') //test 0104
 var VTRouter = require('./routes/VT') //test 0308
 //var VTRouter = require('./routes/VT-r') //referer test
-//var VTORouter = require('./routes/VT-open') //test 0322(only for development env.)
+var VTORouter = require('./routes/VT-open') //test 0322(only for development env.)
 var esriIFRouter = require('./routes/esriIF') //esri interface (tilemap, etc..)
 
 
@@ -181,7 +181,7 @@ app.use('/unvt/users', usersRouter)
 app.use('/unvt/map', mapRouter)
 app.use('/unvt/webmap', webmapRouter)
 app.use('/unvt/VT', VTRouter)
-//app.use('/unvt/VT-open', VTORouter)
+app.use('/unvt/VT-open', VTORouter)
 app.use('/unvt/esriIF', esriIFRouter) //esri interface
 
 // error handler
