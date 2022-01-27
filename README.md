@@ -2,6 +2,19 @@
 vector tile server (onyx with Azure AD authentication)  
 UNVT members may be albe to see this, but please be advised that this repository is for a specific environment. Not for general use.
 
+Compared with un-vector-tile-toolkit/coesite, this repository has following characters:
+1. npm modules are updated.  
+2. ESRI interface has been added. (see unvt/marble to check how it works)  
+3. mysql is used for the session store.  
+4. Some functions, such as raster drawing test and story-telling, are removed to make the structure simple.
+
+## environment
+I developed this nodejs server for Red Hat Enterprise Linux release 8.4.  
+Nodejs v16.13.1  
+npm 8.1.2  
+pm2 v4.5.0
+
+
 ## install
 ```console
 git clone https://github.com/unvt/coesite3
