@@ -181,7 +181,7 @@ app.use('/unvt/users', usersRouter)
 app.use('/unvt/map', mapRouter)
 app.use('/unvt/webmap', webmapRouter)
 app.use('/unvt/VT', VTRouter)
-app.use('/unvt/VT-open', VTORouter)
+//app.use('/unvt/VT-open', VTORouter)
 app.use('/unvt/esriIF', esriIFRouter) //esri interface
 
 // error handler
