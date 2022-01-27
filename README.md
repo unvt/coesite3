@@ -69,3 +69,6 @@ sudo setcap cap_net_bind_service=+ep (your location)/bin/node
 ```
 
 
+## Reference
+https://docs.microsoft.com/en-us/graph/tutorials/node?WT.mc_id=Portal-Microsoft_AAD_RegisteredApps&tutorial-step=3  
+
