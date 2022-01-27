@@ -25,9 +25,9 @@ body { margin:0; padding:0; }
 <script>
 var map = new mapboxgl.Map({
   container: 'map', 
-  attributionControl: false,
+  attributionControl: true,
   hash: true, 
-  style: './styles/test.json', // style file path
+  style: './styles/style-prod.json', // style file path
   center: [0,0], // center [lng, lat]
   zoom: 1, // zoom level at loading
   maxZoom: 0, // min zoom
@@ -36,7 +36,7 @@ var map = new mapboxgl.Map({
 
 
 //UI
-map.addControl(new mapboxgl.AttributionControl({customAttribution: "<a href='https://geoportal.dfs.un.org/arcgis/apps/sites/#/unitemaps'><img src='https://geoportal.dfs.un.org/webapps/resources/LOGOS/PoweredbyUniteMaps.png' alt='Powered by Unite Maps'></a> <a href='http://unopengis.org/unopengis/main/main.php'><img src='https://unopengis.github.io/watermark/watermark.png' alt='UN OpenGIS' style='width:40px;height:40px;'></a>" }));
+//map.addControl(new mapboxgl.AttributionControl({customAttribution: "<a href='https://geoportal.un.org/arcgis/apps/sites/#/unitemaps'><img src='https://geoportal.un.org/webapps/resources/LOGOS/PoweredbyUniteMaps.png' alt='Powered by Unite Maps'></a> <a href='http://unopengis.org/unopengis/main/main.php'><img src='https://unopengis.github.io/watermark/watermark.png' alt='UN OpenGIS' style='width:40px;height:40px;'></a>" }));
 map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
 map.addControl(new mapboxgl.ScaleControl() );
 
