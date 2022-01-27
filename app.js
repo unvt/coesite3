@@ -62,6 +62,8 @@ const msalConfig = {
         clientId: process.env.OAUTH_CLIENT_ID,
         authority: process.env.OAUTH_AUTHORITY,
         clientSecret: process.env.OAUTH_CLIENT_SECRET
+        //Client credential (secret, certificate, or assertion) must not be empty when creating a confidential client. 
+        //An application should at most have one credential
     },
     system: {
         loggerOptions: {
@@ -81,10 +83,12 @@ app.locals.msalClient = new msal.ConfidentialClientApplication(msalConfig);
 var indexRouter = require('./routes/index')
 var usersRouter = require('./routes/users')
 var mapRouter = require('./routes/map') //test 0104
+var webmapRouter = require('./routes/webmap') //test 0104
 var VTRouter = require('./routes/VT') //test 0308
 //var VTRouter = require('./routes/VT-r') //referer test
-var VTORouter = require('./routes/VT-open') //test 0322
+//var VTORouter = require('./routes/VT-open') //test 0322(only for development env.)
 var esriIFRouter = require('./routes/esriIF') //esri interface (tilemap, etc..)
+
 
 /*
 // Session middleware
@@ -111,10 +115,10 @@ const mysqlOptions ={
 const sessionStore = new MySQLStore(mysqlOptions)
 const sess = {
     secret: process.env.OAUTH_CLIENT_SECRET,
-    cookie: {maxAge: 60000000}, //16h40m (mili-second)
+    cookie: {maxAge: 60000000}, //16h40m
     store: sessionStore,
-    resave: false, //make it true if necessary
-    saveUninitialized: false //make it true if necessary
+    resave: true, //make it true if necessary
+    saveUninitialized: true //make it true if necessary
 }
 //sess.cookie.secure = true //for production
 app.use(session(sess))
@@ -155,14 +159,16 @@ app.use(morgan(morganFormat, {
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+
 /*
 // for credential
 const corsOption = {
  origin: '*',
  credentials: true
 }
+app.options('*', cors(corsOption)) //test
 app.use(cors(corsOption)) 
-// for credential
+// for credential (unitil here)
 */
 app.use(cors())
 
@@ -173,19 +179,10 @@ app.use('/unvt/', indexRouter)
 app.use('/unvt/auth', authRouter) //after app.use('/', indexRouter)
 app.use('/unvt/users', usersRouter)
 app.use('/unvt/map', mapRouter)
+app.use('/unvt/webmap', webmapRouter)
 app.use('/unvt/VT', VTRouter)
 app.use('/unvt/VT-open', VTORouter)
 app.use('/unvt/esriIF', esriIFRouter) //esri interface
-
-/*
-app.use(express.static('public'))
-app.use('/', indexRouter)
-app.use('/auth', authRouter) //after app.use('/', indexRouter)
-app.use('/users', usersRouter)
-app.use('/map', mapRouter)
-app.use('/VT', VTRouter)
-app.use('/VT-open', VTORouter)
-*/
 
 // error handler
 app.use((req, res) => {
