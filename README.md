@@ -1,6 +1,6 @@
 # coesite3
-vector tile server (onyx with Azure AD authentication)  
-UNVT members may be albe to see this, but please be advised that this repository is for a specific environment. Not for general use.
+vector tile server (onyx with Azure AD authentication) in development environment.  
+Please be advised that this repository is for a specific environment. Not for general use.
 
 Compared with un-vector-tile-toolkit/coesite, this repository has following characters:
 1. npm modules are updated.  
