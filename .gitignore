@@ -5,3 +5,4 @@ key
 config/default.hjson
 esri/UniteStreetMapVector
 esri/UniteStreetMapVector-open
+public/styles/style-prod.json
