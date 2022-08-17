@@ -6,9 +6,15 @@
  logDirPath: log
  port: 443
  tz:{
+  UniteStreetMapVector: 6 
+  contour: 6
   unosm: 6
  }
+  tRz:{
+  srtm: 6 
+ }
  sTileName:{
+  UniteStreetMapVector: small-scale
   un-z5: small-scale
   osm-z456: small-scale
  }

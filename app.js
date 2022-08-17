@@ -88,7 +88,7 @@ var VTRouter = require('./routes/VT') //test 0308
 //var VTRouter = require('./routes/VT-r') //referer test
 var VTORouter = require('./routes/VT-open') //test 0322(only for development env.)
 var esriIFRouter = require('./routes/esriIF') //esri interface (tilemap, etc..)
-
+var rgbElevRouter = require('./routes/rgbElev')
 
 /*
 // Session middleware
@@ -183,6 +183,7 @@ app.use('/unvt/webmap', webmapRouter)
 app.use('/unvt/VT', VTRouter)
 app.use('/unvt/VT-open', VTORouter)
 app.use('/unvt/esriIF', esriIFRouter) //esri interface
+app.use('/unvt/rgb-elev', rgbElevRouter)
 
 // error handler
 app.use((req, res) => {
