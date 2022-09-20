@@ -6,7 +6,7 @@
 <title>Map test</title>
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='./maplibre-gl@2.4.0/maplibre-gl.js'></script>
-<link href='./maplibre-gl@2.4.0/maplibre-gl_r.css' rel='stylesheet' />
+<link href='./maplibre-gl@2.4.0/maplibre-gl-r.css' rel='stylesheet' />
 
 <style>
 body { margin:0; padding:0; }
@@ -27,7 +27,7 @@ var map = new maplibregl.Map({
   container: 'map', 
   attributionControl: true,
   hash: true, 
-  style: './styles/style-prod.json', // style file path
+  style: './styles/style-test.json', // style file path
   center: [0,0], // center [lng, lat]
   zoom: 1, // zoom level at loading
   maxZoom: 0, // min zoom
