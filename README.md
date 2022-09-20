@@ -81,6 +81,10 @@ which node
 sudo setcap cap_net_bind_service=+ep (your location)/bin/node
 ```
 
+### Plugins
+Some plugins are stored in the public folder.
+maplibre-gl-export and maplibr-gl-legend are from watergis. (MIT license)
+
 
 ## Reference
 https://docs.microsoft.com/en-us/graph/tutorials/node?WT.mc_id=Portal-Microsoft_AAD_RegisteredApps&tutorial-step=3  
