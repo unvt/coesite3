@@ -83,6 +83,7 @@ app.locals.msalClient = new msal.ConfidentialClientApplication(msalConfig);
 var indexRouter = require('./routes/index')
 var usersRouter = require('./routes/users')
 var mapRouter = require('./routes/map') //test 0104
+var mapLRouter = require('./routes/map-l') //test 0104
 var webmapRouter = require('./routes/webmap') //test 0104
 var VTRouter = require('./routes/VT') //test 0308
 //var VTRouter = require('./routes/VT-r') //referer test
@@ -179,6 +180,7 @@ app.use('/unvt/', indexRouter)
 app.use('/unvt/auth', authRouter) //after app.use('/', indexRouter)
 app.use('/unvt/users', usersRouter)
 app.use('/unvt/map', mapRouter)
+app.use('/unvt/map-l', mapLRouter)
 app.use('/unvt/webmap', webmapRouter)
 app.use('/unvt/VT', VTRouter)
 app.use('/unvt/VT-open', VTORouter)

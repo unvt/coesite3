@@ -30,7 +30,7 @@ if (!req.session.userId) {
       if (accessToken && accessToken.length > 0) {
         try {
          // render
-           res.render('map',{ layout: false } ); 
+           res.render('map-l',{ layout: false } ); 
            //   res.render('map', params); 
         } catch (err) {
           res.send(JSON.stringify(err, Object.getOwnPropertyNames(err)));
