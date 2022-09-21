@@ -8,25 +8,21 @@
  tz:{
   UniteStreetMapVector: 6 
   contour: 6
-  unosm: 6
  }
   tRz:{
   srtm: 6 
  }
  sTileName:{
   UniteStreetMapVector: small-scale
-  un-z5: small-scale
-  osm-z456: small-scale
  }
  defaultZ: 6
  mbtilesDir: mbtiles
+  esriDir: esri
  esri-tilemap-min:{
-  ne-test: 0
-  test: 0
+  UniteStreetMapVector: 0
  }
  esri-tilemap-max:{
-  ne-test: 5
-  test: 15
+  UniteStreetMapVector: 15
  }
 
 }
