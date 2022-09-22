@@ -3,8 +3,5 @@ package-lock.json
 node_modules
 key
 config/default.hjson
-esri/UniteStreetMapVector
 esri/UniteStreetMapVector-open
-public/styles/style-prod.json
-public/styles/style-prod-bu.json
-public/sprite_un
+
