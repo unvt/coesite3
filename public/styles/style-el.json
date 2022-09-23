@@ -19,7 +19,7 @@
       "minzoom": 10,
       "attribution": "Contour from SRTM (UNGSC)"
     },
-      "hillshadeSource": {
+      "dem": {
         "type": "raster-dem",
         "tiles": ["https://dev-geoportal.dfs.un.org/unvt/rgb-Elev/zxy/{z}/{x}/{y}.png"],
         "attribution": "Global Map Global Elevation v2 (up to ZL5) and SRTM 1 arc DEM (ZL6-12)",
@@ -16532,7 +16532,7 @@
       {
         "id": "hills",
         "type": "hillshade",
-        "source": "hillshadeSource",
+        "source": "dem",
         "layout": {"visibility": "visible"},
         "paint": {"hillshade-shadow-color": "#473B24"}
       },
