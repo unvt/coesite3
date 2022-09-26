@@ -32,7 +32,8 @@ var map = new maplibregl.Map({
   center: [0,0], // center [lng, lat]
   zoom: 1, // zoom level at loading
   maxZoom: 0, // min zoom
-  maxZoom: 17 // max zoom
+  maxZoom: 17, // max zoom
+  maxPitch: 85
 });
 
 map.on('load', () => {
