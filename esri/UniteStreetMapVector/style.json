@@ -7035,7 +7035,7 @@
         "symbol-placement": "line",
         "text-field": "{name}",
         "text-font": [
-          "Klokantech Noto Sans Regular"
+          "NotoSans-Regular"
         ],
         "text-offset": {
           "stops": [
@@ -13979,7 +13979,7 @@
       "layout": {
         "text-field": "{region_name}",
         "text-font": [
-          "Klokantech Noto Sans Italic"
+          "NotoSans-Italic"
         ],
         "text-size": {
           "stops": [
@@ -14010,7 +14010,7 @@
       "layout": {
         "text-field": "{nombre_ver}",
         "text-font": [
-          "Klokantech Noto Sans Italic"
+          "NotoSans-Italic"
         ],
         "text-size": {
           "stops": [
@@ -14041,7 +14041,7 @@
       "layout": {
         "text-field": "{adm2nm}",
         "text-font": [
-          "Klokantech Noto Sans Italic"
+          "NotoSans-Italic"
         ],
         "text-size": 10.6
       },
@@ -15152,7 +15152,7 @@
       "layout": {
         "text-field": "{adm1nm}",
         "text-font": [
-          "Klokantech Noto Sans Italic"
+          "NotoSans-Italic"
         ],
         "text-size": 12
       },
