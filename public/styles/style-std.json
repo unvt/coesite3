@@ -11,25 +11,6 @@
         "https://dev-geoportal.dfs.un.org/unvt/VT/zxy/UniteStreetMapVector/{z}/{x}/{y}.pbf"
       ],
       "type": "vector"
-    },
-    "contour": {
-      "type": "vector",
-      "tiles": [
-        "https://dev-geoportal.dfs.un.org/unvt/VT/zxy/contour/{z}/{x}/{y}.pbf"
-      ],
-      "maxzoom": 13,
-      "minzoom": 10,
-      "attribution": "Contour from SRTM (UNGSC)"
-    },
-    "dem": {
-      "type": "raster-dem",
-      "tiles": [
-        "https://dev-geoportal.dfs.un.org/unvt/rgb-Elev/zxy/{z}/{x}/{y}.png"
-      ],
-      "attribution": "Global Map Global Elevation v2 (up to ZL5) and SRTM 1 arc DEM (ZL6-12)",
-      "tileSize": 512,
-      "minzoom": 2,
-      "maxzoom": 13
     }
   },
   "layers": [
@@ -16451,63 +16432,6 @@
       "source": "v",
       "source-layer": "un_popp",
       "type": "symbol"
-    },
-    {
-      "id": "hills",
-      "type": "hillshade",
-      "source": "dem",
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "hillshade-shadow-color": "#473B24"
-      }
-    },
-    {
-      "id": "Contour_line",
-      "type": "line",
-      "source": "contour",
-      "source-layer": "elev",
-      "paint": {
-        "line-color": "#774b3c",
-        "line-opacity": 0.5,
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          11,
-          0.7,
-          16,
-          1.1
-        ]
-      }
-    },
-    {
-      "id": "Contour_label",
-      "type": "symbol",
-      "source": "contour",
-      "source-layer": "elev",
-      "minzoom": 12,
-      "layout": {
-        "symbol-placement": "line",
-        "symbol-spacing": 700,
-        "text-letter-spacing": 0.1,
-        "text-font": [
-          "sans"
-        ],
-        "text-field": "{contour}",
-        "text-size": 9
-      },
-      "paint": {
-        "text-color": "#61674a",
-        "text-halo-width": 1,
-        "text-halo-blur": 0.5,
-        "text-halo-color": "#F0F0E9"
-      }
     }
   ]
 }

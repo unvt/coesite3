@@ -3,7 +3,7 @@
   "sprite": "https://dev-geoportal.dfs.un.org/unvt/sprite-rev/sprite_S",
   "glyphs": "https://dev-geoportal.dfs.un.org/unvt/font/{fontstack}/{range}.pbf",
   "sources": {
-    "v": {
+      "v": {
       "attribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>, and <a href='https://www.un.org/geospatial/'>UN Geospatial</a> <a href='https://geoportal.un.org/arcgis/apps/sites/#/unitemaps'><img src='https://geoportal.un.org/webapps/resources/LOGOS/PoweredbyUniteMaps.png' alt='Powered by Unite Maps'></a> <a href='http://unopengis.org/unopengis/main/main.php'><img src='https://unopengis.github.io/watermark/watermark.png' alt='UN OpenGIS' style='width:40px;height:40px;'></a>",
       "maxzoom": 15,
       "minzoom": 0,
@@ -14,29 +14,36 @@
     },
     "contour": {
       "type": "vector",
-      "tiles": [
-        "https://dev-geoportal.dfs.un.org/unvt/VT/zxy/contour/{z}/{x}/{y}.pbf"
-      ],
+      "tiles": ["https://dev-geoportal.dfs.un.org/unvt/VT/zxy/contour/{z}/{x}/{y}.pbf"],
       "maxzoom": 13,
       "minzoom": 10,
       "attribution": "Contour from SRTM (UNGSC)"
     },
-    "dem": {
-      "type": "raster-dem",
-      "tiles": [
-        "https://dev-geoportal.dfs.un.org/unvt/rgb-Elev/zxy/{z}/{x}/{y}.png"
-      ],
-      "attribution": "Global Map Global Elevation v2 (up to ZL5) and SRTM 1 arc DEM (ZL6-12)",
-      "tileSize": 512,
-      "minzoom": 2,
-      "maxzoom": 13
-    }
+      "dem": {
+        "type": "raster-dem",
+        "tiles": ["https://dev-geoportal.dfs.un.org/unvt/rgb-Elev/zxy/{z}/{x}/{y}.png"],
+        "attribution": "Global Map Global Elevation v2 (up to ZL5) and SRTM 1 arc DEM (ZL6-12)",
+        "tileSize": 512,
+        "minzoom": 2,
+        "maxzoom": 13
+      }
   },
   "layers": [
     {
       "id": "background",
       "paint": {
-        "background-color": "#D5EBF5"
+        "background-color": {
+          "stops": [
+            [
+              7,
+              "#D5EBF5"
+            ],
+            [
+              8,
+              "#D8EBF5"
+            ]
+          ]
+        }
       },
       "type": "background"
     },
@@ -52,22 +59,19 @@
       "type": "fill"
     },
     {
-      "id": "pg-landcover",
+      "filter": [
+        "any",
+        [
+          "==",
+          "gridcode",
+          20
+        ]
+      ],
+      "id": "pg-landcover-20",
       "maxzoom": 20,
       "minzoom": 2,
       "paint": {
-        "fill-color": [
-          "match",
-          [
-            "get",
-            "gridcode"
-          ],
-          20,
-          "#DAEDD0",
-          30,
-          "#ECF3DD",
-          "#F6EFEF"
-        ]
+        "fill-color": "#DAEDD0"
       },
       "source": "v",
       "source-layer": "landcover",
@@ -75,12 +79,50 @@
     },
     {
       "filter": [
-        "!=",
+        "any",
         [
-          "get",
-          "fclass"
-        ],
-        "pier"
+          "==",
+          "gridcode",
+          30
+        ]
+      ],
+      "id": "pg-landcover-30",
+      "maxzoom": 20,
+      "minzoom": 2,
+      "paint": {
+        "fill-color": "#ECF3DD"
+      },
+      "source": "v",
+      "source-layer": "landcover",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "==",
+          "gridcode",
+          80
+        ]
+      ],
+      "id": "pg-landcover-80",
+      "maxzoom": 20,
+      "minzoom": 3,
+      "paint": {
+        "fill-color": "#F6EFEF"
+      },
+      "source": "v",
+      "source-layer": "landcover",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "all",
+        [
+          "!=",
+          "fclass",
+          "pier"
+        ]
       ],
       "id": "pg-land-trans-area",
       "maxzoom": 20,
@@ -93,39 +135,17 @@
     },
     {
       "filter": [
-        "match",
+        "any",
         [
-          "get",
-          "z_order"
-        ],
-        [
-          35,
-          36,
-          37,
-          41
-        ],
-        true,
-        false
+          "==",
+          "fclass",
+          "cemetery"
+        ]
       ],
-      "id": "pg-land-urban",
+      "id": "pg-land-urban-cemetery",
       "maxzoom": 20,
       "paint": {
-        "fill-color": [
-          "match",
-          [
-            "get",
-            "z_order"
-          ],
-          35,
-          "#BDDFC9",
-          36,
-          "#ECE0CF",
-          37,
-          "#E1DEEC",
-          41,
-          "#EDE6E6",
-          "#FAF9F6"
-        ]
+        "fill-color": "#BDDFC9"
       },
       "source": "v",
       "source-layer": "lu_urban",
@@ -133,49 +153,73 @@
     },
     {
       "filter": [
-        "match",
+        "any",
         [
-          "get",
-          "z_order"
-        ],
-        [
-          13,
-          14,
-          15,
-          16,
-          17,
-          18,
-          19
-        ],
-        true,
-        false
+          "==",
+          "fclass",
+          "commercial"
+        ]
       ],
-      "id": "pg-land-nature-m",
+      "id": "pg-land-urban-commercial",
       "maxzoom": 20,
       "paint": {
-        "fill-color": [
-          "match",
-          [
-            "get",
-            "z_order"
-          ],
-          [
-            13,
-            14,
-            17
-          ],
-          "#F2F2DC",
-          [
-            18,
-            19
-          ],
-          "#CFE6C3",
-          15,
-          "#E2EBCF",
-          16,
-          "#F2F2E3",
-          "red"
+        "fill-color": "#ECE0CF"
+      },
+      "source": "v",
+      "source-layer": "lu_urban",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "==",
+          "fclass",
+          "industrial"
         ]
+      ],
+      "id": "pg-land-urban-industrial",
+      "maxzoom": 20,
+      "paint": {
+        "fill-color": "#E1DEEC"
+      },
+      "source": "v",
+      "source-layer": "lu_urban",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "==",
+          "fclass",
+          "residential"
+        ]
+      ],
+      "id": "pg-land-urban-residential",
+      "maxzoom": 20,
+      "paint": {
+        "fill-color": "#EDE6E6"
+      },
+      "source": "v",
+      "source-layer": "lu_urban",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "in",
+          "z_order",
+          13,
+          14,
+          17
+        ]
+      ],
+      "id": "pg-land-nature-m-farm",
+      "maxzoom": 20,
+      "paint": {
+        "fill-color": "#F2F2DC"
       },
       "source": "v",
       "source-layer": "nature-m",
@@ -183,76 +227,72 @@
     },
     {
       "filter": [
-        "match",
+        "any",
         [
-          "get",
-          "z_order"
-        ],
-        [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13,
-          14,
-          15,
-          16
-        ],
-        true,
-        false
+          "in",
+          "z_order",
+          18,
+          19
+        ]
       ],
-      "id": "pg-land-nature-l",
+      "id": "pg-land-nature-m-forest",
       "maxzoom": 20,
       "paint": {
-        "fill-color": [
-          "match",
-          [
-            "get",
-            "z_order"
-          ],
-          [
-            13,
-            14
-          ],
-          "#F2F2DC",
-          [
-            5,
-            6,
-            15
-          ],
-          "#E2EBCF",
-          [
-            4,
-            16
-          ],
-          "#F2F2E3",
-          [
-            7,
-            12
-          ],
-          "#E1EDC9",
-          [
-            1,
-            3,
-            8,
-            10,
-            11
-          ],
-          "#BAE3BA",
-          9,
-          "#ECE7DE",
-          2,
-          "#E5DFD1",
-          "#FAF9F6"
+        "fill-color": "#CFE6C3"
+      },
+      "source": "v",
+      "source-layer": "nature-m",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "==",
+          "z_order",
+          15
         ]
+      ],
+      "id": "pg-land-nature-m-grass",
+      "maxzoom": 20,
+      "paint": {
+        "fill-color": "#E2EBCF"
+      },
+      "source": "v",
+      "source-layer": "nature-m",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "==",
+          "z_order",
+          16
+        ]
+      ],
+      "id": "pg-land-nature-m-heath",
+      "maxzoom": 20,
+      "paint": {
+        "fill-color": "#F2F2E3"
+      },
+      "source": "v",
+      "source-layer": "nature-m",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "==",
+          "z_order",
+          2
+        ]
+      ],
+      "id": "pg-land-nature-l-rock",
+      "maxzoom": 20,
+      "paint": {
+        "fill-color": "#E5DFD1"
       },
       "source": "v",
       "source-layer": "nature-l",
@@ -260,14 +300,129 @@
     },
     {
       "filter": [
-        "match",
+        "any",
         [
-          "get",
-          "fclass"
-        ],
-        "pier",
-        true,
-        false
+          "==",
+          "z_order",
+          9
+        ]
+      ],
+      "id": "pg-land-nature-l-quarry",
+      "maxzoom": 20,
+      "paint": {
+        "fill-color": "#ECE7DE"
+      },
+      "source": "v",
+      "source-layer": "nature-l",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "in",
+          "z_order",
+          4,
+          16
+        ]
+      ],
+      "id": "pg-land-nature-l-heath",
+      "maxzoom": 20,
+      "paint": {
+        "fill-color": "#F2F2E3"
+      },
+      "source": "v",
+      "source-layer": "nature-l",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "in",
+          "z_order",
+          13,
+          14
+        ]
+      ],
+      "id": "pg-land-nature-l-farm",
+      "maxzoom": 18,
+      "paint": {
+        "fill-color": "#F2F2DC"
+      },
+      "source": "v",
+      "source-layer": "nature-l",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "in",
+          "z_order",
+          5,
+          6,
+          15
+        ]
+      ],
+      "id": "pg-land-nature-l-grass",
+      "maxzoom": 18,
+      "paint": {
+        "fill-color": "#E2EBCF"
+      },
+      "source": "v",
+      "source-layer": "nature-l",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "in",
+          "z_order",
+          7,
+          12
+        ]
+      ],
+      "id": "pg-land-nature-l-orchard",
+      "maxzoom": 20,
+      "paint": {
+        "fill-color": "#E1EDC9"
+      },
+      "source": "v",
+      "source-layer": "nature-l",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "in",
+          "z_order",
+          1,
+          3,
+          8,
+          10,
+          11
+        ]
+      ],
+      "id": "pg-land-nature-l-park",
+      "maxzoom": 20,
+      "paint": {
+        "fill-color": "#BAE3BA"
+      },
+      "source": "v",
+      "source-layer": "nature-l",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "all",
+        [
+          "==",
+          "fclass",
+          "pier"
+        ]
       ],
       "id": "pg-area-pier",
       "maxzoom": 20,
@@ -280,31 +435,28 @@
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "z_order"
-        ],
-        39,
-        true,
-        false
+          "==",
+          "fclass",
+          "military"
+        ]
       ],
       "id": "pg-area-military",
       "maxzoom": 20,
       "paint": {
-        "fill-opacity": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          10,
-          0,
-          11,
-          1
-        ],
+        "fill-opacity": {
+          "stops": [
+            [
+              10,
+              0
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        },
         "fill-pattern": "ARE_Military"
       },
       "source": "v",
@@ -317,31 +469,24 @@
       "minzoom": 14,
       "paint": {
         "fill-color": "rgba(120,117,117,0.5)",
-        "fill-translate": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          13,
-          [
-            "literal",
+        "fill-translate": {
+          "stops": [
             [
-              0,
-              0
-            ]
-          ],
-          17,
-          [
-            "literal",
+              13,
+              [
+                0,
+                0
+              ]
+            ],
             [
-              3,
-              3
+              17,
+              [
+                3,
+                3
+              ]
             ]
           ]
-        ]
+        }
       },
       "source": "v",
       "source-layer": "building",
@@ -353,130 +498,215 @@
       "minzoom": 12,
       "paint": {
         "fill-color": "#CBC5C5",
-        "fill-opacity": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          12,
-          0,
-          14,
-          1
-        ]
+        "fill-opacity": {
+          "stops": [
+            [
+              12,
+              0
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        }
       },
       "source": "v",
       "source-layer": "building",
       "type": "fill"
     },
-    {
+   {
       "filter": [
         "match",
         [
-          "get",
-          "z_order"
+          "geometry-type"
         ],
         [
-          1,
-          2,
-          3,
-          4
+          "Polygon",
+          "MultiPolygon"
         ],
         true,
         false
       ],
-      "id": "ls-hydro-water-l-halo",
+      "id": "pg-area-building-3D",
+      "maxzoom": 19,
+      "paint": {
+        "fill-extrusion-color": "#CBC5C5",
+        "fill-extrusion-height": [
+          "case",
+          [
+            "has",
+            "height"
+          ],
+          [
+            "max",
+            [
+              "to-number",
+              [
+                "get",
+                "height"
+              ]
+            ],
+            5
+          ],
+          [
+            "max",
+            [
+              "*",
+              [
+                "to-number",
+                [
+                  "get",
+                  "building_levels"
+                ]
+              ],
+              3.66
+            ],
+            5
+          ]
+        ],
+        "fill-extrusion-opacity": 0.7
+      },
+      "source": "v",
+      "source-layer": "building",
+      "type": "fill-extrusion"
+    },
+    {
+      "filter": [
+        "all",
+        [
+          "!=",
+          "fclass",
+          "maritime"
+        ],
+        [
+          "!=",
+          "z_order",
+          1
+        ]
+      ],
+      "id": "ls-area-park-halo2",
+      "layout": {
+        "line-join": "round"
+      },
+      "maxzoom": 20,
+      "paint": {
+        "line-color": "rgba(187,235,203,0.3)",
+        "line-width": 4
+      },
+      "source": "v",
+      "source-layer": "area_park",
+      "type": "line"
+    },
+    {
+      "filter": [
+        "all",
+        [
+          "!=",
+          "fclass",
+          "maritime"
+        ],
+        [
+          "==",
+          "z_order",
+          1
+        ]
+      ],
+      "id": "ls-area-park-halo1",
+      "layout": {
+        "line-join": "round"
+      },
+      "maxzoom": 20,
+      "paint": {
+        "line-color": "rgba(186,234,218,0.3)",
+        "line-width": 5.333
+      },
+      "source": "v",
+      "source-layer": "area_park",
+      "type": "line"
+    },
+    {
+      "filter": [
+        "all",
+        [
+          "!=",
+          "fclass",
+          "maritime"
+        ],
+        [
+          "!=",
+          "z_order",
+          1
+        ]
+      ],
+      "id": "ls-area-park-line2",
       "layout": {
         "line-cap": "round",
         "line-join": "round"
       },
-      "minzoom": 10.53,
       "maxzoom": 20,
       "paint": {
-        "line-color": [
-          "match",
-          [
-            "get",
-            "z_order"
-          ],
-          1,
-          "#B6DEF2",
-          "rgba(250,249,246,0.5)"
+        "line-color": "#8CB198",
+        "line-width": 0.5
+      },
+      "source": "v",
+      "source-layer": "area_park",
+      "type": "line"
+    },
+    {
+      "filter": [
+        "all",
+        [
+          "!=",
+          "fclass",
+          "maritime"
         ],
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          10.53,
-          [
-            "match",
-            [
-              "get",
-              "z_order"
-            ],
-            1,
-            2.677,
-            0
-          ],
-          11,
-          [
-            "match",
-            [
-              "get",
-              "z_order"
-            ],
-            1,
-            2.923,
-            2,
-            2.76,
-            0
-          ],
-          11.53,
-          [
-            "match",
-            [
-              "get",
-              "z_order"
-            ],
-            1,
-            3.2,
-            2,
-            3,
-            0
-          ],
-          13,
-          [
-            "match",
-            [
-              "get",
-              "z_order"
-            ],
-            1,
-            3.967,
-            2,
-            3.664,
-            1.664
-          ],
-          18.17,
-          [
-            "match",
-            [
-              "get",
-              "z_order"
-            ],
-            1,
-            6.66667,
-            2,
-            6,
-            4
-          ]
+        [
+          "==",
+          "z_order",
+          1
         ]
+      ],
+      "id": "ls-area-park-line1",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "maxzoom": 20,
+      "paint": {
+        "line-color": "#8AB0A4",
+        "line-width": 0.5
+      },
+      "source": "v",
+      "source-layer": "area_park",
+      "type": "line"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "==",
+          "z_order",
+          2
+        ]
+      ],
+      "id": "ls-hydro-water-l-stream-halo",
+      "minzoom": 11,
+      "paint": {
+        "line-color": "rgba(250,249,246,0.5)",
+        "line-blur": 1,
+        "line-width": {
+          "stops": [
+            [
+              11.53,
+              3
+            ],
+            [
+              18.17,
+              6
+            ]
+          ]
+        }
       },
       "source": "v",
       "source-layer": "water",
@@ -484,55 +714,118 @@
     },
     {
       "filter": [
-        "match",
+        "any",
         [
-          "get",
-          "z_order"
-        ],
-        [
+          "in",
+          "z_order",
           3,
-          5
-        ],
-        false,
-        true
+          4
+        ]
       ],
-      "id": "ls-hydro-waterbody-outline",
+      "id": "ls-hydro-water-l-CD-halo",
+      "minzoom": 13,
+      "paint": {
+        "line-color": "rgba(250,249,246,0.5)",
+        "line-width": {
+          "stops": [
+            [
+              11.53,
+              1
+            ],
+            [
+              18.17,
+              4
+            ]
+          ]
+        }
+      },
+      "source": "v",
+      "source-layer": "water",
+      "type": "line"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "==",
+          "z_order",
+          1
+        ]
+      ],
+      "id": "ls-hydro-water-l-river-halo",
       "minzoom": 10.53,
-      "maxzoom": 20,
       "layout": {
         "line-cap": "round",
         "line-join": "round"
       },
       "paint": {
-        "line-color": [
-          "interpolate",
-          [
-            "exponential",
-            0.5
-          ],
-          [
-            "zoom"
-          ],
-          4,
-          "#609FBF",
-          7,
-          "#3D9CCC",
-          9,
-          "#B6DEF2"
+        "line-color": "#B6DEF2",
+        "line-width": {
+          "stops": [
+            [
+              11.53,
+              2
+            ],
+            [
+              18.17,
+              6.66667
+            ]
+          ]
+        }
+      },
+      "source": "v",
+      "source-layer": "water",
+      "type": "line"
+    },
+    {
+      "filter": [
+        "all",
+        [
+          "!=",
+          "fclass",
+          "wetland"
         ],
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          11.53,
-          0.666667,
-          18.17,
-          3.33333
+        [
+          "!=",
+          "fclass",
+          "glacier"
         ]
+      ],
+      "id": "ls-hydro-waterbody-outline",
+      "minzoom": 10.53,
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": {
+          "stops": [
+            [
+              4,
+              "#609FBF"
+            ],
+            [
+              7,
+              "#3D9CCC"
+            ],
+            [
+              9,
+              "#B6DEF2"
+            ]
+          ]
+        },
+        "line-width": {
+          "stops": [
+            [
+              11.53,
+              0.666667
+            ],
+            [
+              18.17,
+              3.33333
+            ]
+          ]
+        }
       },
       "source": "v",
       "source-layer": "watera",
@@ -540,38 +833,34 @@
     },
     {
       "filter": [
-        "match",
+        "any",
         [
-          "get",
-          "z_order"
-        ],
-        4,
-        true,
-        false
+          "==",
+          "z_order",
+          4
+        ]
       ],
       "id": "ls-hydro-water-l-drain",
       "layout": {
         "icon-allow-overlap": true,
         "icon-image": "HYD_Drain",
         "icon-rotation-alignment": "map",
-        "icon-size": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          11.53,
-          1,
-          18.17,
-          3
-        ],
+        "icon-size": {
+          "stops": [
+            [
+              11.53,
+              1
+            ],
+            [
+              18.17,
+              3
+            ]
+          ]
+        },
         "symbol-placement": "line",
         "symbol-spacing": 4
       },
       "minzoom": 13,
-      "maxzoom": 20,
       "paint": {
         "icon-color": "#C7E4F2"
       },
@@ -581,37 +870,33 @@
     },
     {
       "filter": [
-        "match",
+        "any",
         [
-          "get",
-          "z_order"
-        ],
-        3,
-        true,
-        false
+          "==",
+          "z_order",
+          3
+        ]
       ],
       "id": "ls-hydro-water-l-canal",
       "minzoom": 13,
-      "maxzoom": 20,
       "paint": {
         "line-color": "#C7E4F2",
         "line-dasharray": [
           2.66667,
           2
         ],
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          11.53,
-          0.666667,
-          18.17,
-          2.66667
-        ]
+        "line-width": {
+          "stops": [
+            [
+              11.53,
+              0.666667
+            ],
+            [
+              18.17,
+              2.66667
+            ]
+          ]
+        }
       },
       "source": "v",
       "source-layer": "water",
@@ -619,105 +904,78 @@
     },
     {
       "filter": [
-        "match",
+        "any",
         [
-          "get",
-          "z_order"
-        ],
-        [
-          1,
+          "==",
+          "z_order",
           2
-        ],
-        true,
-        false
+        ]
       ],
-      "id": "ls-hydro-water-l",
+      "id": "ls-hydro-water-l-stream",
+      "minzoom": 11,
+      "paint": {
+        "line-color": "#C7E4F2",
+        "line-width": {
+          "stops": [
+            [
+              11.53,
+              0.88
+            ],
+            [
+              18.17,
+              3.52
+            ]
+          ]
+        }
+      },
+      "source": "v",
+      "source-layer": "water",
+      "type": "line"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "==",
+          "z_order",
+          1
+        ]
+      ],
+      "id": "ls-hydro-water-l-river",
       "layout": {
         "line-cap": "round",
         "line-join": "round"
       },
-      "maxzoom": 20,
+      "minzoom": 7,
       "paint": {
-        "line-color": [
-          "interpolate",
-          [
-            "exponential",
-            0.5
-          ],
-          [
-            "zoom"
-          ],
-          10,
-          "#C7E4F2",
-          11,
-          [
-            "match",
+        "line-color": {
+          "stops": [
             [
-              "get",
-              "z_order"
+              10,
+              "#D8ECF6"
             ],
-            1,
-            "#D8ECF6",
-            "#C7E4F2"
+            [
+              11,
+              "#B6DEF2"
+            ]
           ]
-        ],
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          7.22,
-          [
-            "match",
+        },
+        "line-width": {
+          "stops": [
             [
-              "get",
-              "z_order"
+              7.21,
+              1
             ],
-            1,
-            1,
-            0
-          ],
-          10.53,
-          [
-            "match",
             [
-              "get",
-              "z_order"
+              10.53,
+              1.33333
             ],
-            1,
-            1.333333,
-            0
-          ],
-          11.53,
-          [
-            "match",
             [
-              "get",
-              "z_order"
-            ],
-            1,
-            1.8841,
-            2,
-            0.88,
-            0.666667
-          ],
-          18.17,
-          [
-            "match",
-            [
-              "get",
-              "z_order"
-            ],
-            1,
-            4.4444,
-            2,
-            3.52,
-            2.666667
+              18.17,
+              4.44444
+            ]
           ]
-        ]
+        }
       },
       "source": "v",
       "source-layer": "water",
@@ -733,21 +991,22 @@
       "minzoom": 3,
       "paint": {
         "line-color": "#B5DEF2",
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          2.56,
-          0.333333,
-          5.89,
-          0.666667,
-          7.21,
-          1
-        ]
+        "line-width": {
+          "stops": [
+            [
+              2.56,
+              0.333333
+            ],
+            [
+              5.89,
+              0.666667
+            ],
+            [
+              7.21,
+              1
+            ]
+          ]
+        }
       },
       "source": "v",
       "source-layer": "un_water",
@@ -755,20 +1014,37 @@
     },
     {
       "filter": [
-        "match",
+        "any",
         [
-          "get",
-          "z_order"
-        ],
-        3,
-        true,
-        false
+          "==",
+          "fclass",
+          "wetland"
+        ]
       ],
       "id": "pg-hydro-water-wetland",
       "maxzoom": 20,
       "minzoom": 6,
       "paint": {
         "fill-pattern": "HYD_Wetland"
+      },
+      "source": "v",
+      "source-layer": "watera",
+      "type": "fill"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "==",
+          "fclass",
+          "glacier"
+        ]
+      ],
+      "id": "pg-hydro-water-glacier",
+      "maxzoom": 20,
+      "minzoom": 6,
+      "paint": {
+        "fill-color": "#FBFCFB"
       },
       "source": "v",
       "source-layer": "watera",
@@ -787,122 +1063,27 @@
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "z_order"
+          "!=",
+          "fclass",
+          "wetland"
         ],
-        3,
-        false,
-        true
+        [
+          "!=",
+          "fclass",
+          "glacier"
+        ]
       ],
       "id": "pg-hydro-water-main",
       "maxzoom": 20,
       "minzoom": 6,
       "paint": {
-        "fill-color": [
-          "match",
-          [
-            "get",
-            "z_order"
-          ],
-          5,
-          "#FBFCFB",
-          "#D8EBF5"
-        ]
+        "fill-color": "#D8EBF5"
       },
       "source": "v",
       "source-layer": "watera",
       "type": "fill"
-    },
-    {
-      "filter": [
-        "match",
-        [
-          "get",
-          "z_order"
-        ],
-        [
-          29,
-          30,
-          31,
-          32,
-          33
-        ],
-        true,
-        false
-      ],
-      "id": "ls-area-park-halo",
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      },
-      "maxzoom": 20,
-      "paint": {
-        "line-color": [
-          "match",
-          [
-            "get",
-            "z_order"
-          ],
-          29,
-          "rgba(186,234,218,0.3)",
-          "rgba(187,235,203,0.3)"
-        ],
-        "line-width": [
-          "match",
-          [
-            "get",
-            "z_order"
-          ],
-          29,
-          5.3333,
-          4
-        ]
-      },
-      "source": "v",
-      "source-layer": "area_park",
-      "type": "line"
-    },
-    {
-      "filter": [
-        "match",
-        [
-          "get",
-          "z_order"
-        ],
-        [
-          29,
-          30,
-          31,
-          32,
-          33
-        ],
-        true,
-        false
-      ],
-      "id": "ls-area-park",
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      },
-      "maxzoom": 20,
-      "paint": {
-        "line-color": [
-          "match",
-          [
-            "get",
-            "z_order"
-          ],
-          29,
-          "#8AB0A4",
-          "#8CB198"
-        ],
-        "line-width": 0.5
-      },
-      "source": "v",
-      "source-layer": "area_park",
-      "type": "line"
     },
     {
       "filter": [
@@ -6360,132 +6541,22 @@
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "bdytyp"
-        ],
-        [
-          1,
-          2,
-          3,
-          4,
-          8,
+          "==",
+          "bdytyp",
           9
-        ],
-        true,
-        false
+        ]
       ],
-      "id": "ls-admin-ISAOAS-halo",
+      "id": "ls-admin-sovereign-halo",
       "layout": {
         "line-cap": "round",
         "line-join": "round"
       },
-      "minzoom": 3.89,
+      "minzoom": 5.89,
       "paint": {
         "line-color": "rgba(230,227,223,0.65)",
-        "line-opacity": [
-          "step",
-          [
-            "zoom"
-          ],
-          [
-            "match",
-            [
-              "get",
-              "bdytyp"
-            ],
-            [
-              1,
-              2,
-              3,
-              4
-            ],
-            1,
-            0
-          ],
-          4.89,
-          [
-            "match",
-            [
-              "get",
-              "bdytyp"
-            ],
-            [
-              1,
-              2,
-              3,
-              4,
-              8
-            ],
-            1,
-            0
-          ],
-          5.89,
-          1
-        ],
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          4,
-          [
-            "match",
-            [
-              "get",
-              "bdytyp"
-            ],
-            [
-              1,
-              2,
-              3,
-              4,
-              8
-            ],
-            2.66667,
-            2
-          ],
-          5,
-          [
-            "match",
-            [
-              "get",
-              "bdytyp"
-            ],
-            [
-              1,
-              2,
-              3,
-              4
-            ],
-            4,
-            8,
-            2.66667,
-            2
-          ],
-          6,
-          [
-            "match",
-            [
-              "get",
-              "bdytyp"
-            ],
-            [
-              1,
-              2,
-              3,
-              4
-            ],
-            4.2,
-            8,
-            2.66667,
-            2
-          ]
-        ]
+        "line-width": 2
       },
       "source": "v",
       "source-layer": "bndl",
@@ -6493,14 +6564,76 @@
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "bdytyp"
-        ],
-        10,
-        true,
-        false
+          "==",
+          "bdytyp",
+          8
+        ]
+      ],
+      "id": "ls-admin-autonomous-halo",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "minzoom": 4.89,
+      "paint": {
+        "line-color": "rgba(230,227,223,0.65)",
+        "line-width": 2.66667
+      },
+      "source": "v",
+      "source-layer": "bndl",
+      "type": "line"
+    },
+    {
+      "filter": [
+        "any",
+        [
+          "in",
+          "bdytyp",
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "id": "ls-admin-ISAO-halo",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "minzoom": 3.89,
+      "paint": {
+        "line-color": "rgba(230,227,223,0.65)",
+        "line-width": {
+          "stops": [
+            [
+              4,
+              2.66667
+            ],
+            [
+              5,
+              4
+            ],
+            [
+              6,
+              4.2
+            ]
+          ]
+        }
+      },
+      "source": "v",
+      "source-layer": "bndl",
+      "type": "line"
+    },
+    {
+      "filter": [
+        "all",
+        [
+          "==",
+          "bdytyp",
+          10
+        ]
       ],
       "id": "ls-admin-admin3",
       "minzoom": 9.21,
@@ -6518,14 +6651,12 @@
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "bdytyp"
-        ],
-        7,
-        true,
-        false
+          "==",
+          "bdytyp",
+          7
+        ]
       ],
       "id": "ls-admin-admin2",
       "minzoom": 7.21,
@@ -6543,14 +6674,12 @@
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "bdytyp"
-        ],
-        6,
-        true,
-        false
+          "==",
+          "bdytyp",
+          6
+        ]
       ],
       "id": "ls-admin-admin1",
       "minzoom": 5.89,
@@ -6568,14 +6697,12 @@
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "bdytyp"
-        ],
-        9,
-        true,
-        false
+          "==",
+          "bdytyp",
+          9
+        ]
       ],
       "id": "ls-admin-sovereign",
       "layout": {
@@ -6593,14 +6720,12 @@
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "bdytyp"
-        ],
-        8,
-        true,
-        false
+          "==",
+          "bdytyp",
+          8
+        ]
       ],
       "id": "ls-admin-autonomous",
       "layout": {
@@ -6621,70 +6746,101 @@
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "bdytyp"
-        ],
-        4,
-        true,
-        false
+          "==",
+          "bdytyp",
+          4
+        ]
       ],
       "id": "ls-admin-l-other",
       "layout": {
-        "icon-ignore-placement": true,
-        "symbol-placement": "line",
-        "icon-image": [
-          "step",
-          [
-            "zoom"
-          ],
-          "ADM_Other_M",
-          6,
-          "ADM_Other_L"
-        ],
-        "symbol-spacing": 5.6667,
-        "icon-rotation-alignment": "map",
-        "icon-allow-overlap": true
+        "line-cap": "round",
+        "line-join": "round"
       },
       "paint": {
-        "icon-color": [
-          "interpolate",
-          [
-            "exponential",
-            0.5
-          ],
-          [
-            "zoom"
-          ],
-          3,
-          "#737B80",
-          4,
-          "#454A4C",
-          5,
-          "#454A4C",
-          6,
-          "#393D40"
-        ]
+        "line-color": {
+          "stops": [
+            [
+              3,
+              "#737B80"
+            ],
+            [
+              4,
+              "#454A4C"
+            ],
+            [
+              5,
+              "#505659"
+            ],
+            [
+              6,
+              "#393D40"
+            ]
+          ]
+        },
+        "line-dasharray": {
+          "stops": [
+            [
+              3,
+              [
+                1,
+                3
+              ]
+            ],
+            [
+              4,
+              [
+                1,
+                5
+              ]
+            ]
+          ]
+        },
+        "line-width": {
+          "stops": [
+            [
+              1,
+              0.2
+            ],
+            [
+              2,
+              0.3
+            ],
+            [
+              3,
+              0.6
+            ],
+            [
+              4,
+              0.8
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1.333
+            ]
+          ]
+        }
       },
       "source": "v",
       "source-layer": "bndl",
-      "type": "symbol"
+      "type": "line"
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "bdytyp"
-        ],
-        3,
-        true,
-        false
+          "==",
+          "bdytyp",
+          3
+        ]
       ],
       "id": "ls-admin-armistice",
       "layout": {
-        "line-cap": "round",
         "line-join": "round"
       },
       "paint": {
@@ -6740,29 +6896,38 @@
             ]
           ]
         },
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          0,
-          0.1,
-          1,
-          0.133333,
-          2,
-          0.333333,
-          3,
-          0.5,
-          4,
-          0.666667,
-          5,
-          1,
-          6,
-          1.333333
-        ]
+        "line-width": {
+          "stops": [
+            [
+              0,
+              0.1
+            ],
+            [
+              1,
+              0.133333
+            ],
+            [
+              2,
+              0.333333
+            ],
+            [
+              3,
+              0.5
+            ],
+            [
+              4,
+              0.666667
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1.333
+            ]
+          ]
+        }
       },
       "source": "v",
       "source-layer": "bndl",
@@ -6770,18 +6935,15 @@
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "bdytyp"
-        ],
-        2,
-        true,
-        false
+          "==",
+          "bdytyp",
+          2
+        ]
       ],
       "id": "ls-admin-special",
       "layout": {
-        "line-cap": "round",
         "line-join": "round"
       },
       "paint": {
@@ -6823,29 +6985,38 @@
             ]
           ]
         },
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          0,
-          0.1,
-          1,
-          0.133333,
-          2,
-          0.333333,
-          3,
-          0.5,
-          4,
-          0.666667,
-          5,
-          1,
-          6,
-          1.333333
-        ]
+        "line-width": {
+          "stops": [
+            [
+              0,
+              0.1
+            ],
+            [
+              1,
+              0.133333
+            ],
+            [
+              2,
+              0.333333
+            ],
+            [
+              3,
+              0.5
+            ],
+            [
+              4,
+              0.666667
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1.333
+            ]
+          ]
+        }
       },
       "source": "v",
       "source-layer": "bndl",
@@ -6853,14 +7024,12 @@
     },
     {
       "filter": [
-        "match",
+        "all",
         [
-          "get",
-          "bdytyp"
-        ],
-        1,
-        true,
-        false
+          "==",
+          "bdytyp",
+          1
+        ]
       ],
       "id": "ls-admin-international",
       "layout": {
@@ -6868,196 +7037,110 @@
         "line-join": "round"
       },
       "paint": {
-        "line-color": [
-          "interpolate",
-          [
-            "exponential",
-            0.5
-          ],
-          [
-            "zoom"
-          ],
-          3,
-          "#737B80",
-          4,
-          "#454A4C",
-          5,
-          "#454A4C",
-          6,
-          "#393D40"
-        ],
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          1,
-          0.133333,
-          2,
-          0.333333,
-          3,
-          0.5,
-          4,
-          0.666667,
-          5,
-          1,
-          6,
-          1.333333
-        ]
+        "line-color": {
+          "stops": [
+            [
+              3,
+              "#737B80"
+            ],
+            [
+              4,
+              "#454A4C"
+            ],
+            [
+              5,
+              "#454A4C"
+            ],
+            [
+              6,
+              "#393D40"
+            ]
+          ]
+        },
+        "line-width": {
+          "stops": [
+            [
+              0,
+              0.1
+            ],
+            [
+              1,
+              0.133333
+            ],
+            [
+              2,
+              0.333333
+            ],
+            [
+              3,
+              0.5
+            ],
+            [
+              4,
+              0.666667
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1.333
+            ]
+          ]
+        }
       },
       "source": "v",
       "source-layer": "bndl",
       "type": "line"
     },
     {
-      "id": "pg-hydro-watera-label",
-      "layout": {
-        "text-field": "{name}",
-        "text-font": [
-          "match",
-          [
-            "get",
-            "z_order"
-          ],
-          5,
-          [
-            "literal",
-            [
-              "NotoSansDisplay-SemiBoldItalic"
-            ]
-          ],
-          [
-            "literal",
-            [
-              "NotoSansDisplay-MediumItalic"
-            ]
-          ]
-        ],
-        "text-optional": true,
-        "text-size": 10.666,
-        "text-letter-spacing": 0.15
-      },
-      "minzoom": 14,
-      "maxzoom": 20,
-      "paint": {
-        "text-color": "#3D9CCC",
-        "text-halo-color": "rgba(255,255,255,0.5)",
-        "text-halo-width": 1.33333
-      },
-      "source": "v",
-      "source-layer": "watera",
-      "type": "symbol"
-    },
-    {
       "filter": [
-        "match",
+        "any",
         [
-          "get",
-          "z_order"
-        ],
-        [
-          2,
-          3
-        ],
-        true,
-        false
-      ],
-      "id": "ls-water-l-label2",
-      "layout": {
-        "symbol-placement": "line",
-        "symbol-spacing": 1000,
-        "text-field": [
-          "step",
-          [
-            "zoom"
-          ],
-          [
-            "match",
-            [
-              "get",
-              "z_order"
-            ],
-            2,
-            [
-              "get",
-              "name"
-            ],
-            ""
-          ],
-          14,
-          [
-            "get",
-            "name"
-          ]
-        ],
-        "text-font": [
-          "NotoSansDisplay-Italic"
-        ],
-        "text-optional": true,
-        "text-size": 9.33333,
-        "text-letter-spacing": 0.15
-      },
-      "minzoom": 13,
-      "maxzoom": 20,
-      "paint": {
-        "text-color": "#3D9CCC",
-        "text-halo-color": "rgba(255,255,255,0.5)",
-        "text-halo-width": 1
-      },
-      "source": "v",
-      "source-layer": "water",
-      "type": "symbol"
-    },
-    {
-      "filter": [
-        "match",
-        [
-          "get",
-          "z_order"
-        ],
-        [
+          "==",
+          "z_order",
           1
-        ],
-        true,
-        false
+        ]
       ],
       "id": "ls-water-l-label",
       "layout": {
         "symbol-placement": "line",
-        "symbol-spacing": 1000,
         "text-field": "{name}",
         "text-font": [
-          "step",
-          [
-            "zoom"
-          ],
-          [
-            "literal",
+          "Klokantech Noto Sans Regular"
+        ],
+        "text-offset": {
+          "stops": [
             [
-              "NotoSansDisplay-Italic"
-            ]
-          ],
-          11,
-          [
-            "literal",
+              15,
+              [
+                0,
+                -0.5
+              ]
+            ],
             [
-              "NotoSansDisplay-MediumItalic"
+              16,
+              [
+                0,
+                -1
+              ]
+            ],
+            [
+              17,
+              [
+                0,
+                0
+              ]
             ]
           ]
-        ],
+        },
         "text-optional": true,
-        "text-size": 9.33333,
-        "text-letter-spacing": 0.15
+        "text-size": 8
       },
       "minzoom": 9,
-      "maxzoom": 20,
       "paint": {
-        "text-color": "#3D9CCC",
-        "text-halo-color": "rgba(255,255,255,0.5)",
-        "text-halo-width": 1
+        "text-color": "#3D9CCC"
       },
       "source": "v",
       "source-layer": "water",
@@ -7358,8 +7441,7 @@
           "fast_food",
           "food_court",
           "restaurant",
-          "cafe",
-          "biergarten"
+          "cafe"
         ],
         [
           "==",
@@ -11167,8 +11249,7 @@
           "hostel",
           "hotel",
           "motel",
-          "guest_house",
-          "chalet"
+          "guest_house"
         ],
         [
           "==",
@@ -11419,8 +11500,7 @@
           "clinic",
           "dentist",
           "doctors",
-          "hospital",
-          "veterinary"
+          "hospital"
         ],
         [
           "==",
@@ -12314,10 +12394,9 @@
           "UNMIK"
         ],
         [
-          "in",
+          "==",
           "fclass",
-          "embassy",
-          "diplomatic"
+          "embassy"
         ],
         [
           "==",
@@ -13973,7 +14052,7 @@
       "layout": {
         "text-field": "{region_name}",
         "text-font": [
-          "NotoSans-Italic"
+          "Klokantech Noto Sans Italic"
         ],
         "text-size": {
           "stops": [
@@ -14004,7 +14083,7 @@
       "layout": {
         "text-field": "{nombre_ver}",
         "text-font": [
-          "NotoSans-Italic"
+          "Klokantech Noto Sans Italic"
         ],
         "text-size": {
           "stops": [
@@ -14035,7 +14114,7 @@
       "layout": {
         "text-field": "{adm2nm}",
         "text-font": [
-          "NotoSans-Italic"
+          "Klokantech Noto Sans Italic"
         ],
         "text-size": 10.6
       },
@@ -14244,10 +14323,9 @@
       "filter": [
         "all",
         [
-          "in",
+          "==",
           "fclass",
-          "halt",
-          "stop"
+          "halt"
         ],
         [
           "==",
@@ -14275,10 +14353,9 @@
       "filter": [
         "all",
         [
-          "in",
+          "==",
           "fclass",
-          "tram_stop",
-          "stop position"
+          "tram_stop"
         ],
         [
           "==",
@@ -15148,7 +15225,7 @@
       "layout": {
         "text-field": "{adm1nm}",
         "text-font": [
-          "NotoSans-Italic"
+          "Klokantech Noto Sans Italic"
         ],
         "text-size": 12
       },
@@ -16452,62 +16529,47 @@
       "source-layer": "un_popp",
       "type": "symbol"
     },
-    {
-      "id": "hills",
-      "type": "hillshade",
-      "source": "dem",
-      "layout": {
-        "visibility": "visible"
+      {
+        "id": "hills",
+        "type": "hillshade",
+        "source": "dem",
+        "layout": {"visibility": "visible"},
+        "paint": {"hillshade-shadow-color": "#473B24"}
       },
-      "paint": {
-        "hillshade-shadow-color": "#473B24"
-      }
-    },
-    {
-      "id": "Contour_line",
-      "type": "line",
-      "source": "contour",
-      "source-layer": "elev",
-      "paint": {
-        "line-color": "#774b3c",
-        "line-opacity": 0.5,
-        "line-width": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          11,
-          0.7,
-          16,
-          1.1
-        ]
-      }
-    },
-    {
-      "id": "Contour_label",
-      "type": "symbol",
-      "source": "contour",
-      "source-layer": "elev",
-      "minzoom": 12,
-      "layout": {
-        "symbol-placement": "line",
-        "symbol-spacing": 700,
-        "text-letter-spacing": 0.1,
-        "text-font": [
-          "sans"
-        ],
-        "text-field": "{contour}",
-        "text-size": 9
-      },
-      "paint": {
-        "text-color": "#61674a",
-        "text-halo-width": 1,
-        "text-halo-blur": 0.5,
-        "text-halo-color": "#F0F0E9"
+ {
+    "id": "Contour_line",
+    "type": "line",
+    "source": "contour",
+    "source-layer": "elev",
+    "paint": {
+      "line-color": "#774b3c",
+      "line-opacity": 0.5,
+      "line-width": {
+        "base": 1.2,
+        "stops": [[11, 0.7], [16, 1.1]]
       }
     }
-  ]
+  },
+ {
+    "id": "Contour_label",
+    "type": "symbol",
+    "source": "contour",
+    "source-layer": "elev",
+    "minzoom": 12,
+    "layout":{
+       "symbol-placement" : "line",
+       "symbol-spacing" : 700,
+       "text-letter-spacing" : 0.1,
+       "text-font" : ["sans"],
+       "text-field" : "{contour}",
+       "text-size" : 9
+    },
+    "paint": {
+      "text-color": "#61674a",
+      "text-halo-width" : 1.0,
+      "text-halo-blur" : 0.5,
+      "text-halo-color" : "#F0F0E9"
+    }
+  }
+]
 }
