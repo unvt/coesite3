@@ -26,7 +26,7 @@
       "tiles": [
         "https://dev-geoportal.dfs.un.org/unvt/rgb-Elev/zxy/{z}/{x}/{y}.png"
       ],
-      "attribution": "Global Map Global Elevation v2 (up to ZL5) and SRTM 1 arc DEM (ZL6-12)",
+      "attribution": "Global Map Global Elevation v2 (up to ZL5) and NASADEM (ZL6-12)",
       "tileSize": 512,
       "minzoom": 2,
       "maxzoom": 13
