@@ -130,7 +130,7 @@ var whiteList=[
   "https://ubukawa.github.io/cors-cookie",
   "https://abc"
 ]
-if (!req.session.userId && !whiteList.includes(req.headers.referer) ) {
+if (!req.session.userId && !(req.headers.referer && whiteList.some(value => req.headers.referer.includes(value))) ) {
   // Redirect unauthenticated requests to home page
    // res.redirect('/')
     res.status(401).send(`Please log in to get: /zxy/${t}/${z}/${x}/${y}.pbf`)
