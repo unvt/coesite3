@@ -4,7 +4,7 @@
   "glyphs": "https://dev-geoportal.dfs.un.org/unvt/font/{fontstack}/{range}.pbf",
   "sources": {
     "v": {
-      "attribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>, and <a href='https://www.un.org/geospatial/'>UN Geospatial</a> <a href='https://geoportal.un.org/arcgis/apps/sites/#/unitemaps'><img src='https://geoportal.un.org/webapps/resources/LOGOS/PoweredbyUniteMaps.png' alt='Powered by Unite Maps'></a> <a href='http://unopengis.org/unopengis/main/main.php'><img src='https://unopengis.github.io/watermark/watermark.png' alt='UN OpenGIS' style='width:40px;height:40px;'></a>",
+      "attribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>, and <a href='https://www.un.org/geospatial/'>UN Geospatial</a> <img src='https://geoportal.un.org/webapps/resources/LOGOS/PoweredbyUNMaps.png' alt='Powered by UNMaps'> <a href='http://unopengis.org/unopengis/main/main.php'><img src='https://unopengis.github.io/watermark/watermark.png' alt='UN OpenGIS' style='width:40px;height:40px;'></a>",
       "maxzoom": 15,
       "minzoom": 0,
       "url": "https://dev-geoportal.dfs.un.org/unvt/esriIF/UniteStreetMapVector/VectorTileServer",
